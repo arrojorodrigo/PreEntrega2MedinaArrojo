@@ -1,38 +1,40 @@
-import './App.css';
-import { useEffect, useState } from 'react';
-import axios from "axios";
-import ResponsiveAppBar from "./components/ResponsiveAppBar/index";
-import ProductList from "./components/ProductList"
-import Container from '@mui/material/Container';
-import { Link, Route, Routes } from 'react-router-dom';
-import { Navigate } from "react-router-dom";
-import Home from './components/Home';
+import { useEffect, useState } from "react";
+import { Navigate, Route, Routes } from "react-router-dom";
+import "./App.css";
+import CardDetail from "./components/CardDetail";
+import Home from "./components/Home";
+import Navbar from "./components/Navbar";
+import ProductList from "./components/ProductList";
 
-function App() {  
-  const [products, setProducts] = useState([])
+function App() {
+  const [productos, setProductos] = useState([]);
 
-  const fetchProducts = async () => {
-    const { data } = await axios("https://fakestoreapi.com/products")
-    setProducts(data)
-  }
-  useEffect (() => {
-    fetchProducts()
-  }, [])
+  useEffect(() => {
+    fetch("https://fakestoreapi.com/products")
+      .then((response) => response.json())
+      .then((data) => {
+        setProductos(data);
+      });
+  }, []);
 
   return (
     <div>
+      <Navbar />
+      <h1>MobiliOK</h1>
       <Routes>
-        <Route path="/" element= { <Navigate to="/home"/> } />
-        <Route path="/home" element= { <Home /> } />
-        <Route path="/products" element= { <ProductList products={products} /> } />
+        <Route path="/" element={<Navigate to="/home" />} />
+        <Route path="/home" element={<Home />} />
+        <Route
+          path="/products"
+          element={<ProductList productos={productos} />}
+        />
+        <Route path="/products/:id" element={<CardDetail />} />
+        <Route path="/cart" element={<h3>Cart</h3>} />
+        <Route path="/404" element={<h2>404 Not Found</h2>} />
+        <Route path="*" element={<Navigate to="/404" />} />
       </Routes>
-      {/* {products.map(product) => (<h3>{product.title}</h3>)} */}
-      <ResponsiveAppBar/>
-      <Container sx={{ mt: 5 }}>
-      {/* <ProductList products={products}/> */}
-      </Container>
     </div>
   );
 }
 
-export default App
+export default App;

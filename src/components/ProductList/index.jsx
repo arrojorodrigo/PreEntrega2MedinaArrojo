@@ -1,16 +1,14 @@
-import { Grid } from "@mui/material";
-import ProductItem from "../ProductItem";
+import Card from "../Card";
 
-const ProductList = ({ products }) => {
+const ProductList = ({ productos }) => {
   return (
-    <Grid container spacing={3} columns={16}>
-      {products.map((product) => (
-        <Grid key={product.id} item xs={8}>
-          <ProductItem product={product} />
-        </Grid>
+    <div>
+      {productos.map((producto) => (
+        <Card key={producto.id} producto={producto} />
       ))}
-    </Grid>
+    </div>
   );
 };
 
 export default ProductList;
+
